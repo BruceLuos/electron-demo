@@ -16,3 +16,21 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
    1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
    2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
 2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+
+
+## 流程
+1. npm install electron -D
+2. 将vue移到devDependence中，因为electron生产包不需要用到，防止打包进去
+3. 编写mainEntry主进程，devPlugin插件用于打包mainEntry并运行
+注意
+   ```
+  let addressInfo = server.httpServer.address();
+   console.log('addressInfo: ', addressInfo.address) // 拿到的地址无法使用
+   直接先固定为localhost不然页面没有加载到electron中
+   let httpAddress = `http://${'localhost'}:${addressInfo.port}`;
+        let electronProcess = spawn(require("electron").toString(), ["./dist/mainEntry.js", httpAddress], {
+          cwd: process.cwd(),
+          stdio: "inherit",
+        });
+   ```
+4. 渲染进程集成内置模块，设置vite模块别名和模块解析钩子getReplacer
