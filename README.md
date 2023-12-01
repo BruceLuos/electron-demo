@@ -34,3 +34,4 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
         });
    ```
 4. 渲染进程集成内置模块，设置vite模块别名和模块解析钩子getReplacer
+5. 创建编译结束钩子函数，制作应用安装包，主进程生产环境加载本地文件

@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from "electron";
+import { CustomScheme } from "./customScheme";
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "true"; // 用于设置渲染进程开发者调试工具的警告
 let mainWindow: BrowserWindow;
 
@@ -16,5 +17,11 @@ app.whenReady().then(() => {
   };
   mainWindow = new BrowserWindow(config);
   mainWindow.webContents.openDevTools({ mode: "undocked" }); // 打开开发工具
-  mainWindow.loadURL(process.argv[2]);
+  if (process.argv[2]) {
+    mainWindow.loadURL(process.argv[2]);
+  } else {
+    // 注册特权
+    CustomScheme.registerScheme();
+    mainWindow.loadURL(`app://index.html`);
+  }
 });

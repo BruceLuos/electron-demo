@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { devPlugin, getReplacer } from "./plugins/devPlugin";
+import { buildPlugin} from "./plugins/buildPlugin";
 import optimizer from "vite-plugin-optimizer";
 /**
  * vite-plugin-optimizer 插件会为你创建一个临时目录：node_modules\.vite-plugin-optimizer**。
@@ -11,4 +12,9 @@ import optimizer from "vite-plugin-optimizer";
  */
 export default defineConfig({
   plugins: [optimizer(getReplacer()), devPlugin(), vue()],
+  build: {
+    rollupOptions: {
+        plugins: [buildPlugin()],
+    },
+},
 });
