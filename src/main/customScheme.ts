@@ -43,6 +43,10 @@ export class CustomScheme {
         statusCode: 200,
         headers: { "content-type": this.getMimeType(extension) },
         data: fs.createReadStream(tarFile),
+        /**
+         * **响应的 data 属性为目标文件的可读数据流。这也是为什么我们用 `registerStreamProtocol` 方法注册自定义协议的原因。
+         * 当你的静态文件比较大时，不必读出整个文件再给出响应。**
+         */
       });
     });
   }
